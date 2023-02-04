@@ -2,11 +2,16 @@
 import { ref, onMounted, computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 import Gallery from '@/components/detail/Gallery.vue';
 
 const route = useRoute();
+const userStore = useUserStore();
+
 const item = ref(false);
+const user = computed(() => userStore.user);
+const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 async function getProduct() {
     try {
@@ -82,9 +87,19 @@ onMounted(() => {
                                     </li>
                                 </ul>
                             </div>
-                            <RouterLink to="/pricing"
+
+                            <a 
+                                v-if="user.data.subscription.length > 0"
+                                :href="item.file"
                                 class="inline-flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-700 md:py-2 md:text-md md:px-10 hover:shadow">
-                                Download Now
+                                Subscribe
+                            </a>
+
+                            <RouterLink 
+                                v-else
+                                to="/pricing"
+                                class="inline-flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-700 md:py-2 md:text-md md:px-10 hover:shadow">
+                                Subscribe
                             </RouterLink>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ const user = computed(() => userStore.user);
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 onMounted(() => {
-    userStore.fetchUser()
+    userStore.fetchUser();
 });
 
 </script>
